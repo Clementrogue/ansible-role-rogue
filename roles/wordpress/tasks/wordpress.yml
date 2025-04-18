@@ -1,0 +1,46 @@
+- name: Download WordPress
+  get_url:
+    url: "{{ wordpress_url }}"
+    dest: /tmp/wordpress.zip
+
+- name: Extract WordPress
+  unarchive:
+    src: /tmp/wordpress.zip
+    dest: /var/www/html/
+    remote_src: yes
+    creates: /var/www/html/wordpress
+
+- name: Set permissions
+  file:
+    path: /var/www/html/
+    state: directory
+    recurse: yes
+    owner: www-data
+    group: www-data
+    mode: '0755'
+
+- name: Copy wp-config.php
+  template:
+    src: wp-config.php.j2
+    dest: /var/www/html/wp-config.php
+    owner: www-data
+    group: www-data
+    mode: '0640'
+
+- name: Configure Apache for WordPress
+  template:
+    src: wordpress.conf.j2
+    dest: "/etc/{{ apache_service[ansible_os_family] }}/sites-available/wordpress.conf"
+  notify: Reload Apache
+
+- name: Enable site and mod_rewrite (Debian)
+  command: "{{ item }}"
+  with_items:
+    - a2ensite wordpress.conf
+    - a2enmod rewrite
+  when: ansible_os_family == "Debian"
+
+- name: Reload Apache
+  service:
+    name: "{{ apache_service[ansible_os_family] }}"
+    state: reloaded

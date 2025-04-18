@@ -1,0 +1,11 @@
+apache_packages:
+  Debian: [apache2, php, libapache2-mod-php, php-mysql, mariadb-server, wget, unzip]
+  RedHat: [httpd, php, php-mysqlnd, mariadb-server, wget, unzip]
+
+apache_service:
+  Debian: apache2
+  RedHat: httpd
+
+mysql_python_package:
+  Debian: python3-pymysql
+  RedHat: python3-PyMySQL

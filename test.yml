@@ -1,0 +1,5 @@
+- name: Déploiement WordPress
+  hosts: all
+  become: yes
+  roles:
+    - wordpress

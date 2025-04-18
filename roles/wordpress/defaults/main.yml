@@ -1,0 +1,6 @@
+wordpress_db_name: wordpress
+wordpress_db_user: example
+wordpress_db_password: examplePW
+mysql_root_password: examplerootPW
+wordpress_url: https://wordpress.org/latest.zip
+

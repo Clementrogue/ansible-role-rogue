@@ -1,0 +1,8 @@
+- name: Include install tasks
+  include_tasks: install.yml
+
+- name: Include database tasks
+  include_tasks: database.yml
+
+- name: Include WordPress tasks
+  include_tasks: wordpress.yml
